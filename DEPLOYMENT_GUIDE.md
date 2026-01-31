@@ -272,7 +272,7 @@ curl -X POST "http://localhost:8000/api/v1/speech/translate-terms" \
 - Market manipulation monitoring ✅
 - Accessible error communication system ✅
 - User vulnerability assessment ✅
-- Predatory pricing detection ✅
+- P
 
 ### ✅ Production Readiness
 - Complete API documentation ✅

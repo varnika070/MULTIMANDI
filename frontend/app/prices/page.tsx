@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { ArrowLeft, Search, Filter, TrendingUp, TrendingDown, Minus } from 'lucide-react'
+import { ArrowLeft, Search, TrendingUp, TrendingDown, Minus } from 'lucide-react'
 import Link from 'next/link'
 import PriceDisplay from '../../components/PriceDisplay'
 import BigButton from '../../components/BigButton'
@@ -251,10 +251,10 @@ export default function PricesPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
             {/* Header */}
-            <header className="bg-white shadow-sm border-b">
-                <div className="max-w-7xl mx-auto px-4 py-4">
+            <header className="bg-white/80 backdrop-blur-md shadow-lg border-b border-white/20">
+                <div className="max-w-7xl mx-auto px-4 py-6">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-4">
                             <Link href="/">
@@ -267,8 +267,10 @@ export default function PricesPage() {
                                 />
                             </Link>
                             <div>
-                                <h1 className="text-xl font-bold text-gray-900">Market Prices</h1>
-                                <p className="text-sm text-gray-600">Real-time agricultural commodity prices</p>
+                                <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
+                                    Market Prices
+                                </h1>
+                                <p className="text-sm text-gray-600 mt-1">Real-time agricultural commodity prices</p>
                             </div>
                         </div>
 
@@ -283,28 +285,28 @@ export default function PricesPage() {
                 </div>
             </header>
 
-            <div className="max-w-7xl mx-auto px-4 py-6">
+            <div className="max-w-7xl mx-auto px-4 py-8">
                 {/* Search and Filters */}
-                <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-                    <div className="flex flex-col sm:flex-row gap-4">
+                <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 p-8 mb-8">
+                    <div className="flex flex-col sm:flex-row gap-6">
                         {/* Search */}
                         <div className="flex-1 relative">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                             <input
                                 type="text"
                                 placeholder="Search products (e.g., rice, wheat, onion)..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-lg"
+                                className="w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-lg bg-white/90 backdrop-blur-sm shadow-sm"
                             />
                         </div>
 
                         {/* Category Filter */}
-                        <div className="sm:w-48">
+                        <div className="sm:w-56">
                             <select
                                 value={selectedCategory}
                                 onChange={(e) => setSelectedCategory(e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-lg"
+                                className="w-full px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-lg bg-white/90 backdrop-blur-sm shadow-sm"
                             >
                                 {categories.map(category => (
                                     <option key={category.value} value={category.value}>
@@ -318,7 +320,7 @@ export default function PricesPage() {
 
                 {/* Price Grid */}
                 {filteredProducts.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {filteredProducts.map((item) => (
                             <PriceDisplay
                                 key={item.product}
@@ -338,10 +340,12 @@ export default function PricesPage() {
                         ))}
                     </div>
                 ) : (
-                    <div className="bg-white rounded-lg shadow-md p-12 text-center">
-                        <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                        <h3 className="text-xl font-medium text-gray-900 mb-2">No products found</h3>
-                        <p className="text-gray-600 mb-6">
+                    <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 p-12 text-center">
+                        <div className="w-20 h-20 rounded-full bg-gradient-to-r from-gray-400 to-gray-500 flex items-center justify-center mx-auto mb-6">
+                            <Search className="w-10 h-10 text-white" />
+                        </div>
+                        <h3 className="text-xl font-semibold text-gray-900 mb-3">No products found</h3>
+                        <p className="text-gray-600 mb-8 leading-relaxed">
                             Try searching for products like rice, wheat, onion, potato, tomato, or cotton.
                         </p>
                         <BigButton
@@ -353,52 +357,64 @@ export default function PricesPage() {
                 )}
 
                 {/* Market Summary */}
-                <div className="mt-8 bg-white rounded-lg shadow-md p-6">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-4">Market Summary</h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div className="text-center p-4 bg-green-50 rounded-lg">
-                            <TrendingUp className="w-8 h-8 text-green-600 mx-auto mb-2" />
-                            <div className="text-2xl font-bold text-green-600">
+                <div className="mt-12 bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 p-8">
+                    <h2 className="text-xl font-semibold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent mb-6">
+                        Market Summary
+                    </h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div className="text-center p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-2xl border border-green-200">
+                            <div className="w-12 h-12 rounded-full bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center mx-auto mb-4">
+                                <TrendingUp className="w-6 h-6 text-white" />
+                            </div>
+                            <div className="text-3xl font-bold text-green-600 mb-2">
                                 {Object.values(priceData).filter(p => p.trend === 'up').length}
                             </div>
-                            <div className="text-sm text-green-700">Products Trending Up</div>
+                            <div className="text-sm font-medium text-green-700">Products Trending Up</div>
                         </div>
 
-                        <div className="text-center p-4 bg-red-50 rounded-lg">
-                            <TrendingDown className="w-8 h-8 text-red-600 mx-auto mb-2" />
-                            <div className="text-2xl font-bold text-red-600">
+                        <div className="text-center p-6 bg-gradient-to-br from-red-50 to-red-100 rounded-2xl border border-red-200">
+                            <div className="w-12 h-12 rounded-full bg-gradient-to-r from-red-500 to-red-600 flex items-center justify-center mx-auto mb-4">
+                                <TrendingDown className="w-6 h-6 text-white" />
+                            </div>
+                            <div className="text-3xl font-bold text-red-600 mb-2">
                                 {Object.values(priceData).filter(p => p.trend === 'down').length}
                             </div>
-                            <div className="text-sm text-red-700">Products Trending Down</div>
+                            <div className="text-sm font-medium text-red-700">Products Trending Down</div>
                         </div>
 
-                        <div className="text-center p-4 bg-gray-50 rounded-lg">
-                            <Minus className="w-8 h-8 text-gray-600 mx-auto mb-2" />
-                            <div className="text-2xl font-bold text-gray-600">
+                        <div className="text-center p-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl border border-gray-200">
+                            <div className="w-12 h-12 rounded-full bg-gradient-to-r from-gray-500 to-gray-600 flex items-center justify-center mx-auto mb-4">
+                                <Minus className="w-6 h-6 text-white" />
+                            </div>
+                            <div className="text-3xl font-bold text-gray-600 mb-2">
                                 {Object.values(priceData).filter(p => p.trend === 'stable').length}
                             </div>
-                            <div className="text-sm text-gray-700">Products Stable</div>
+                            <div className="text-sm font-medium text-gray-700">Products Stable</div>
                         </div>
                     </div>
                 </div>
 
                 {/* Call to Action */}
-                <div className="mt-8 bg-primary-600 rounded-lg shadow-md p-8 text-center">
-                    <h2 className="text-2xl font-bold text-white mb-4">
-                        Ready to Trade?
-                    </h2>
-                    <p className="text-primary-100 mb-6">
-                        Start a voice conversation to get personalized trading advice and connect with buyers or sellers.
-                    </p>
-                    <Link href="/chat">
-                        <BigButton
-                            label="Start Voice Trading"
-                            audioLabel="Start voice trading chat"
-                            onClick={() => { }}
-                            variant="secondary"
-                            size="large"
-                        />
-                    </Link>
+                <div className="mt-12 bg-gradient-to-r from-primary-600 via-primary-500 to-secondary-500 rounded-2xl shadow-xl p-10 text-center relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary-600/90 to-secondary-600/90"></div>
+                    <div className="relative z-10">
+                        <h2 className="text-3xl font-bold text-white mb-4">
+                            Ready to Trade?
+                        </h2>
+                        <p className="text-primary-100 mb-8 text-lg leading-relaxed max-w-2xl mx-auto">
+                            Start a voice conversation to get personalized trading advice and connect with buyers or sellers.
+                        </p>
+                        <Link href="/chat">
+                            <BigButton
+                                label="Start Voice Trading"
+                                audioLabel="Start voice trading chat"
+                                onClick={() => { }}
+                                variant="secondary"
+                                size="large"
+                                className="bg-white text-primary-600 hover:bg-gray-50 shadow-2xl"
+                            />
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

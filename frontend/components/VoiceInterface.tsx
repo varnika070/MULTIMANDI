@@ -154,47 +154,65 @@ export default function VoiceInterface({
     }
 
     return (
-        <div className="flex flex-col items-center space-y-4 p-6 bg-white rounded-lg shadow-md">
+        <div className="flex flex-col items-center space-y-6 p-8 bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-white/20">
             {/* Voice Recording Button */}
-            <button
-                onClick={isRecording ? stopRecording : startRecording}
-                className={`voice-button ${isRecording ? 'recording' : 'idle'}`}
-                disabled={isPlaying}
-            >
-                {isRecording ? (
-                    <MicOff className="w-8 h-8 text-white" />
-                ) : (
-                    <Mic className="w-8 h-8 text-white" />
-                )}
-            </button>
+            <div className="relative">
+                <button
+                    onClick={isRecording ? stopRecording : startRecording}
+                    className={`voice-button ${isRecording ? 'recording' : 'idle'} relative overflow-hidden`}
+                    disabled={isPlaying}
+                >
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full"></div>
+                    <div className="relative z-10">
+                        {isRecording ? (
+                            <MicOff className="w-8 h-8 text-white" />
+                        ) : (
+                            <Mic className="w-8 h-8 text-white" />
+                        )}
+                    </div>
+                    {isRecording && (
+                        <div className="absolute inset-0 bg-red-500/20 rounded-full animate-ping"></div>
+                    )}
+                </button>
+            </div>
 
-            <p className="text-sm text-gray-600 text-center">
-                {isRecording ? 'Listening... Tap to stop' : 'Tap to start speaking'}
-            </p>
+            <div className="text-center">
+                <p className="text-sm font-medium text-gray-700 mb-1">
+                    {isRecording ? 'Listening... Tap to stop' : 'Tap to start speaking'}
+                </p>
+                <p className="text-xs text-gray-500">
+                    Voice recognition powered by AI
+                </p>
+            </div>
 
             {/* Transcript Display */}
             {transcript && (
                 <div className="w-full max-w-md">
-                    <div className="bg-gray-50 p-3 rounded-lg border">
-                        <p className="text-sm text-gray-700">{transcript}</p>
+                    <div className="bg-gradient-to-r from-primary-50 to-secondary-50 p-4 rounded-xl border border-primary-100 shadow-sm">
+                        <div className="flex items-start space-x-3">
+                            <div className="w-6 h-6 rounded-full bg-gradient-to-r from-primary-500 to-secondary-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <Mic className="w-3 h-3 text-white" />
+                            </div>
+                            <p className="text-sm text-gray-700 leading-relaxed flex-1">{transcript}</p>
+                        </div>
                     </div>
 
                     {/* Text-to-Speech Controls */}
-                    <div className="flex justify-center mt-2">
+                    <div className="flex justify-center mt-4">
                         <button
                             onClick={() => isPlaying ? stopSpeaking() : speakText(transcript)}
-                            className="flex items-center space-x-2 px-3 py-1 bg-secondary-500 text-white rounded-md hover:bg-secondary-600 transition-colors"
+                            className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-secondary-500 to-secondary-600 text-white rounded-xl hover:from-secondary-600 hover:to-secondary-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
                             disabled={!transcript}
                         >
                             {isPlaying ? (
                                 <>
                                     <VolumeX className="w-4 h-4" />
-                                    <span className="text-sm">Stop</span>
+                                    <span className="text-sm font-medium">Stop</span>
                                 </>
                             ) : (
                                 <>
                                     <Volume2 className="w-4 h-4" />
-                                    <span className="text-sm">Play</span>
+                                    <span className="text-sm font-medium">Play</span>
                                 </>
                             )}
                         </button>
@@ -205,15 +223,21 @@ export default function VoiceInterface({
             {/* Error Display */}
             {error && (
                 <div className="w-full max-w-md">
-                    <div className="bg-red-50 border border-red-200 p-3 rounded-lg">
-                        <p className="text-sm text-red-700">{error}</p>
+                    <div className="bg-red-50 border border-red-200 p-4 rounded-xl shadow-sm">
+                        <div className="flex items-start space-x-3">
+                            <div className="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span className="text-white text-xs font-bold">!</span>
+                            </div>
+                            <p className="text-sm text-red-700 leading-relaxed flex-1">{error}</p>
+                        </div>
                     </div>
                 </div>
             )}
 
             {/* Language Indicator */}
-            <div className="text-xs text-gray-500">
-                Language: {language}
+            <div className="flex items-center space-x-2 text-xs text-gray-500 bg-gray-50 px-3 py-2 rounded-full">
+                <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                <span>Language: {language}</span>
             </div>
         </div>
     )

@@ -1,6 +1,7 @@
 """
 Accessible Error Communication API endpoints
 """
+from typing import List
 
 from fastapi import APIRouter, HTTPException, Form
 from typing import Optional, Dict, Any

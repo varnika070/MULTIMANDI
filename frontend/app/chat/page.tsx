@@ -190,10 +190,10 @@ Would you like me to analyze a specific offer or provide more detailed negotiati
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
             {/* Header */}
-            <header className="bg-white shadow-sm border-b">
-                <div className="max-w-4xl mx-auto px-4 py-4">
+            <header className="bg-white/80 backdrop-blur-md shadow-lg border-b border-white/20">
+                <div className="max-w-4xl mx-auto px-4 py-6">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-4">
                             <Link href="/">
@@ -205,14 +205,19 @@ Would you like me to analyze a specific offer or provide more detailed negotiati
                                     className="!min-w-auto !px-3"
                                 />
                             </Link>
-                            <h1 className="text-xl font-bold text-gray-900">Voice Trading Chat</h1>
+                            <div>
+                                <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
+                                    Voice Trading Chat
+                                </h1>
+                                <p className="text-sm text-gray-600 mt-1">AI-powered agricultural marketplace assistant</p>
+                            </div>
                         </div>
 
                         {/* Language Selector */}
                         <select
                             value={selectedLanguage}
                             onChange={(e) => setSelectedLanguage(e.target.value)}
-                            className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                            className="px-4 py-3 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white/90 backdrop-blur-sm shadow-sm"
                         >
                             {languages.map(lang => (
                                 <option key={lang.code} value={lang.code}>{lang.name}</option>
@@ -222,25 +227,33 @@ Would you like me to analyze a specific offer or provide more detailed negotiati
                 </div>
             </header>
 
-            <div className="max-w-4xl mx-auto px-4 py-6">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="max-w-4xl mx-auto px-4 py-8">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Chat Area */}
                     <div className="lg:col-span-2">
-                        <div className="bg-white rounded-lg shadow-md h-96 flex flex-col">
+                        <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 h-96 flex flex-col overflow-hidden">
                             {/* Messages */}
-                            <div className="flex-1 p-4 overflow-y-auto space-y-4">
+                            <div className="flex-1 p-6 overflow-y-auto space-y-4 bg-gradient-to-b from-white/50 to-white/80">
                                 {messages.map((message) => (
                                     <div
                                         key={message.id}
                                         className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
                                     >
-                                        <div className={`message-bubble ${message.type}`}>
-                                            <div className="flex items-start space-x-2">
-                                                {message.type === 'ai' && <Bot className="w-4 h-4 mt-1 text-primary-600" />}
-                                                {message.type === 'user' && <User className="w-4 h-4 mt-1 text-white" />}
-                                                <div>
-                                                    <p className="text-sm">{message.content}</p>
-                                                    <p className="text-xs opacity-70 mt-1">
+                                        <div className={`message-bubble ${message.type} max-w-xs lg:max-w-md`}>
+                                            <div className="flex items-start space-x-3">
+                                                {message.type === 'ai' && (
+                                                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary-500 to-secondary-500 flex items-center justify-center flex-shrink-0">
+                                                        <Bot className="w-4 h-4 text-white" />
+                                                    </div>
+                                                )}
+                                                {message.type === 'user' && (
+                                                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center flex-shrink-0">
+                                                        <User className="w-4 h-4 text-white" />
+                                                    </div>
+                                                )}
+                                                <div className="flex-1">
+                                                    <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
+                                                    <p className="text-xs opacity-70 mt-2">
                                                         {message.timestamp.toLocaleTimeString()}
                                                     </p>
                                                 </div>
@@ -251,10 +264,12 @@ Would you like me to analyze a specific offer or provide more detailed negotiati
 
                                 {isLoading && (
                                     <div className="flex justify-start">
-                                        <div className="message-bubble system">
-                                            <div className="flex items-center space-x-2">
-                                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-600"></div>
-                                                <span className="text-sm">AI is thinking...</span>
+                                        <div className="bg-white/90 backdrop-blur-sm rounded-2xl px-6 py-4 shadow-lg border border-white/20">
+                                            <div className="flex items-center space-x-3">
+                                                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary-500 to-secondary-500 flex items-center justify-center">
+                                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                                </div>
+                                                <span className="text-sm text-gray-700">AI is thinking...</span>
                                             </div>
                                         </div>
                                     </div>
@@ -263,7 +278,7 @@ Would you like me to analyze a specific offer or provide more detailed negotiati
                         </div>
 
                         {/* Voice Interface */}
-                        <div className="mt-6">
+                        <div className="mt-8">
                             <VoiceInterface
                                 onTranscription={handleVoiceTranscription}
                                 language={selectedLanguage}
@@ -284,15 +299,21 @@ Would you like me to analyze a specific offer or provide more detailed negotiati
                                 factors={currentPriceData.factors}
                             />
                         ) : (
-                            <div className="bg-white rounded-lg shadow-md p-6 text-center">
-                                <Bot className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                                <h3 className="text-lg font-medium text-gray-900 mb-2">AI Price Assistant</h3>
-                                <p className="text-gray-600 text-sm mb-4">
+                            <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 p-8 text-center">
+                                <div className="w-16 h-16 rounded-full bg-gradient-to-r from-primary-500 to-secondary-500 flex items-center justify-center mx-auto mb-6">
+                                    <Bot className="w-8 h-8 text-white" />
+                                </div>
+                                <h3 className="text-xl font-semibold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent mb-3">
+                                    AI Price Assistant
+                                </h3>
+                                <p className="text-gray-600 text-sm mb-6 leading-relaxed">
                                     Ask me about current market prices for agricultural products. I can provide real-time pricing, trends, and trading advice.
                                 </p>
-                                <p className="text-xs text-gray-500">
-                                    Try saying: &quot;What is the price of rice?&quot; or &quot;I want to sell tomatoes&quot;
-                                </p>
+                                <div className="bg-gradient-to-r from-primary-50 to-secondary-50 rounded-xl p-4 border border-primary-100">
+                                    <p className="text-xs text-gray-600 font-medium">
+                                        Try saying: "What is the price of rice?" or "I want to sell tomatoes"
+                                    </p>
+                                </div>
                             </div>
                         )}
                     </div>

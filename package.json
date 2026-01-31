@@ -3,10 +3,10 @@
     "version": "1.0.0",
     "description": "Voice-based multilingual agricultural marketplace",
     "private": true,
-    "workspaces": [
-        "frontend",
-        "backend"
-    ],
+    //"workspaces": [
+        //"frontend",
+        //"backend"
+    //],
     "scripts": {
         "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
         "dev:frontend": "cd frontend && npm run dev",
