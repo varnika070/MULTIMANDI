@@ -24,12 +24,23 @@ export default function PricesPage() {
     const [selectedCategory, setSelectedCategory] = useState('all')
 
     const categories = [
-        { value: 'all', label: 'All Products' },
-        { value: 'grains', label: 'Grains' },
-        { value: 'vegetables', label: 'Vegetables' },
-        { value: 'cash_crops', label: 'Cash Crops' },
-        { value: 'spices', label: 'Spices' }
+        { value: 'all', label: 'All Products', count: 8 },
+        { value: 'grains', label: 'Grains', count: 2 },
+        { value: 'vegetables', label: 'Vegetables', count: 3 },
+        { value: 'cash_crops', label: 'Cash Crops', count: 2 },
+        { value: 'spices', label: 'Spices', count: 1 }
     ]
+
+    const productCategories: Record<string, string> = {
+        'Rice': 'grains',
+        'Wheat': 'grains',
+        'Onion': 'vegetables',
+        'Potato': 'vegetables',
+        'Tomato': 'vegetables',
+        'Cotton': 'cash_crops',
+        'Sugarcane': 'cash_crops',
+        'Turmeric': 'spices'
+    }
 
     useEffect(() => {
         fetchPriceData()
@@ -224,8 +235,12 @@ export default function PricesPage() {
     })).filter((item) => {
         const productName = item?.product ?? ''
         const query = searchTerm ?? ''
+        const category = productCategories[productName] || 'other'
 
-        return productName.toLowerCase().includes(query.toLowerCase())
+        const matchesSearch = productName.toLowerCase().includes(query.toLowerCase())
+        const matchesCategory = selectedCategory === 'all' || category === selectedCategory
+
+        return matchesSearch && matchesCategory
     })
 
 
@@ -288,7 +303,7 @@ export default function PricesPage() {
             <div className="max-w-7xl mx-auto px-4 py-8">
                 {/* Search and Filters */}
                 <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 p-8 mb-8">
-                    <div className="flex flex-col sm:flex-row gap-6">
+                    <div className="flex flex-col sm:flex-row gap-6 mb-4">
                         {/* Search */}
                         <div className="flex-1 relative">
                             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -310,11 +325,18 @@ export default function PricesPage() {
                             >
                                 {categories.map(category => (
                                     <option key={category.value} value={category.value}>
-                                        {category.label}
+                                        {category.label} ({category.count})
                                     </option>
                                 ))}
                             </select>
                         </div>
+                    </div>
+
+                    {/* Helper Text */}
+                    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-3 border border-blue-200">
+                        <p className="text-xs text-blue-800 font-medium text-center">
+                            💡 Interactive filters and search work in real-time • Click "Buy Now" or "Sell Now" on any product for AI trading assistance
+                        </p>
                     </div>
                 </div>
 
@@ -336,6 +358,7 @@ export default function PricesPage() {
                                     'Supply chain conditions',
                                     'Regional price variations'
                                 ]}
+                                language="en-US"
                             />
                         ))}
                     </div>

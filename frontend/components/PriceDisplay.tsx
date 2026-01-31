@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { TrendingUp, TrendingDown, Minus, Volume2, Star, Info, CheckCircle, AlertTriangle, Sparkles } from 'lucide-react'
+import DemoModal from './DemoModal'
 
 interface PriceDisplayProps {
     product: string
@@ -14,6 +15,7 @@ interface PriceDisplayProps {
     market?: string
     grade?: string
     updated_at?: string
+    language?: string
 }
 
 export default function PriceDisplay({
@@ -26,9 +28,12 @@ export default function PriceDisplay({
     factors = [],
     market,
     grade,
-    updated_at
+    updated_at,
+    language = 'en-US'
 }: PriceDisplayProps) {
     const [showDetails, setShowDetails] = useState(false)
+    const [modalOpen, setModalOpen] = useState(false)
+    const [modalAction, setModalAction] = useState<'buy' | 'sell'>('buy')
 
     const getTrendIcon = () => {
         switch (trend) {
@@ -69,8 +74,19 @@ export default function PriceDisplay({
             const text = `${product} price is ${price} rupees per ${unit}. Market trend is ${trend}. Confidence level is ${Math.round(confidence * 100)} percent.`
             const utterance = new SpeechSynthesisUtterance(text)
             utterance.rate = 0.8
+            utterance.lang = language
             speechSynthesis.speak(utterance)
         }
+    }
+
+    const handleBuyClick = () => {
+        setModalAction('buy')
+        setModalOpen(true)
+    }
+
+    const handleSellClick = () => {
+        setModalAction('sell')
+        setModalOpen(true)
     }
 
     return (
@@ -142,8 +158,8 @@ export default function PriceDisplay({
                     <div className="w-full bg-gray-200 rounded-full h-3">
                         <div
                             className={`h-3 rounded-full transition-all duration-500 ${confidence >= 0.8 ? 'bg-gradient-to-r from-emerald-400 to-emerald-600' :
-                                    confidence >= 0.6 ? 'bg-gradient-to-r from-yellow-400 to-yellow-600' :
-                                        'bg-gradient-to-r from-red-400 to-red-600'
+                                confidence >= 0.6 ? 'bg-gradient-to-r from-yellow-400 to-yellow-600' :
+                                    'bg-gradient-to-r from-red-400 to-red-600'
                                 }`}
                             style={{ width: `${confidence * 100}%` }}
                         ></div>
@@ -196,11 +212,17 @@ export default function PriceDisplay({
 
                 {/* Action Buttons */}
                 <div className="grid grid-cols-2 gap-3 mb-4">
-                    <button className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white px-4 py-3 rounded-xl font-medium transition-all duration-200 flex items-center justify-center space-x-2 group">
+                    <button
+                        onClick={handleBuyClick}
+                        className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white px-4 py-3 rounded-xl font-medium transition-all duration-200 flex items-center justify-center space-x-2 group"
+                    >
                         <TrendingUp className="w-4 h-4 group-hover:scale-110 transition-transform" />
                         <span>Buy Now</span>
                     </button>
-                    <button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-3 rounded-xl font-medium transition-all duration-200 flex items-center justify-center space-x-2 group">
+                    <button
+                        onClick={handleSellClick}
+                        className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-3 rounded-xl font-medium transition-all duration-200 flex items-center justify-center space-x-2 group"
+                    >
                         <TrendingDown className="w-4 h-4 group-hover:scale-110 transition-transform" />
                         <span>Sell Now</span>
                     </button>
@@ -213,6 +235,17 @@ export default function PriceDisplay({
                     </p>
                 </div>
             </div>
+
+            {/* Demo Modal */}
+            <DemoModal
+                isOpen={modalOpen}
+                onClose={() => setModalOpen(false)}
+                action={modalAction}
+                product={product}
+                price={price}
+                unit={unit}
+                language={language}
+            />
         </div>
     )
 }

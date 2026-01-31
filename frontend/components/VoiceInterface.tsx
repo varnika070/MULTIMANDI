@@ -180,9 +180,14 @@ export default function VoiceInterface({
                 <p className="text-sm font-medium text-gray-700 mb-1">
                     {isRecording ? 'Listening... Tap to stop' : 'Tap to start speaking'}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-500 mb-2">
                     Voice recognition powered by AI
                 </p>
+                <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg px-3 py-1 border border-yellow-200">
+                    <p className="text-xs text-yellow-800 font-medium">
+                        🤖 Prototype voice AI - Simulated speech processing
+                    </p>
+                </div>
             </div>
 
             {/* Transcript Display */}
@@ -235,9 +240,9 @@ export default function VoiceInterface({
             )}
 
             {/* Language Indicator */}
-            <div className="flex items-center space-x-2 text-xs text-gray-500 bg-gray-50 px-3 py-2 rounded-full">
-                <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                <span>Language: {language}</span>
+            <div className="flex items-center justify-center space-x-2 text-xs bg-gradient-to-r from-gray-50 to-slate-50 px-4 py-2 rounded-full border border-gray-200">
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                <span className="text-gray-600 font-medium">Active Language: {language}</span>
             </div>
         </div>
     )
