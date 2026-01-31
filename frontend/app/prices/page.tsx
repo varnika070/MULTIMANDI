@@ -12,6 +12,9 @@ interface PriceTrend {
     trend: 'up' | 'down' | 'stable'
     trend_symbol: string
     unit: string
+    market?: string
+    grade?: string
+    updated_at?: string
 }
 
 export default function PricesPage() {
@@ -41,37 +44,190 @@ export default function PricesPage() {
             } else {
                 // Fallback sample data
                 setPriceData({
-                    'Rice': { product: 'Rice', current_price: 2500, trend: 'up', trend_symbol: '↑', unit: 'quintal' },
-                    'Wheat': { product: 'Wheat', current_price: 2200, trend: 'down', trend_symbol: '↓', unit: 'quintal' },
-                    'Onion': { product: 'Onion', current_price: 3000, trend: 'up', trend_symbol: '↑', unit: 'quintal' },
-                    'Potato': { product: 'Potato', current_price: 1800, trend: 'stable', trend_symbol: '→', unit: 'quintal' },
-                    'Tomato': { product: 'Tomato', current_price: 4500, trend: 'up', trend_symbol: '↑', unit: 'quintal' },
-                    'Cotton': { product: 'Cotton', current_price: 6200, trend: 'down', trend_symbol: '↓', unit: 'quintal' },
-                    'Sugarcane': { product: 'Sugarcane', current_price: 350, trend: 'stable', trend_symbol: '→', unit: 'quintal' },
-                    'Turmeric': { product: 'Turmeric', current_price: 12000, trend: 'up', trend_symbol: '↑', unit: 'quintal' }
+                    Rice: {
+                        product: 'Rice',
+                        current_price: 2500,
+                        trend: 'up',
+                        trend_symbol: '↑',
+                        unit: 'quintal',
+                        market: 'Koyambedu Wholesale Market',
+                        grade: 'Grade A',
+                        updated_at: '2 hours ago'
+                    },
+                    Wheat: {
+                        product: 'Wheat',
+                        current_price: 2200,
+                        trend: 'down',
+                        trend_symbol: '↓',
+                        unit: 'quintal',
+                        market: 'APMC Pune',
+                        grade: 'FAQ',
+                        updated_at: '3 hours ago'
+                    },
+                    Onion: {
+                        product: 'Onion',
+                        current_price: 3000,
+                        trend: 'up',
+                        trend_symbol: '↑',
+                        unit: 'quintal',
+                        market: 'Lasalgaon Mandi',
+                        grade: 'Medium',
+                        updated_at: '1 hour ago'
+                    },
+                    Potato: {
+                        product: 'Potato',
+                        current_price: 1800,
+                        trend: 'stable',
+                        trend_symbol: '→',
+                        unit: 'quintal',
+                        market: 'Agra Mandi',
+                        grade: 'Grade A',
+                        updated_at: 'Today'
+                    },
+                    Tomato: {
+                        product: 'Tomato',
+                        current_price: 4500,
+                        trend: 'up',
+                        trend_symbol: '↑',
+                        unit: 'quintal',
+                        market: 'Madurai Market',
+                        grade: 'Hybrid',
+                        updated_at: '30 minutes ago'
+                    },
+                    Cotton: {
+                        product: 'Cotton',
+                        current_price: 6200,
+                        trend: 'down',
+                        trend_symbol: '↓',
+                        unit: 'quintal',
+                        market: 'Warangal Cotton Market',
+                        grade: 'Long Staple',
+                        updated_at: 'Today'
+                    },
+                    Sugarcane: {
+                        product: 'Sugarcane',
+                        current_price: 350,
+                        trend: 'stable',
+                        trend_symbol: '→',
+                        unit: 'quintal',
+                        market: 'Kolhapur',
+                        grade: 'Mill Grade',
+                        updated_at: 'Yesterday'
+                    },
+                    Turmeric: {
+                        product: 'Turmeric',
+                        current_price: 12000,
+                        trend: 'up',
+                        trend_symbol: '↑',
+                        unit: 'quintal',
+                        market: 'Erode Turmeric Market',
+                        grade: 'Finger Type',
+                        updated_at: 'Today'
+                    }
                 })
+
             }
         } catch (error) {
             console.error('Error fetching price data:', error)
             // Use fallback data
             setPriceData({
-                'Rice': { product: 'Rice', current_price: 2500, trend: 'up', trend_symbol: '↑', unit: 'quintal' },
-                'Wheat': { product: 'Wheat', current_price: 2200, trend: 'down', trend_symbol: '↓', unit: 'quintal' },
-                'Onion': { product: 'Onion', current_price: 3000, trend: 'up', trend_symbol: '↑', unit: 'quintal' },
-                'Potato': { product: 'Potato', current_price: 1800, trend: 'stable', trend_symbol: '→', unit: 'quintal' },
-                'Tomato': { product: 'Tomato', current_price: 4500, trend: 'up', trend_symbol: '↑', unit: 'quintal' },
-                'Cotton': { product: 'Cotton', current_price: 6200, trend: 'down', trend_symbol: '↓', unit: 'quintal' }
+                Rice: {
+                    product: 'Rice',
+                    current_price: 2500,
+                    trend: 'up',
+                    trend_symbol: '↑',
+                    unit: 'quintal',
+                    market: 'Koyambedu Wholesale Market',
+                    grade: 'Grade A',
+                    updated_at: '2 hours ago'
+                },
+                Wheat: {
+                    product: 'Wheat',
+                    current_price: 2200,
+                    trend: 'down',
+                    trend_symbol: '↓',
+                    unit: 'quintal',
+                    market: 'APMC Pune',
+                    grade: 'FAQ',
+                    updated_at: '3 hours ago'
+                },
+                Onion: {
+                    product: 'Onion',
+                    current_price: 3000,
+                    trend: 'up',
+                    trend_symbol: '↑',
+                    unit: 'quintal',
+                    market: 'Lasalgaon Mandi',
+                    grade: 'Medium',
+                    updated_at: '1 hour ago'
+                },
+                Potato: {
+                    product: 'Potato',
+                    current_price: 1800,
+                    trend: 'stable',
+                    trend_symbol: '→',
+                    unit: 'quintal',
+                    market: 'Agra Mandi',
+                    grade: 'Grade A',
+                    updated_at: 'Today'
+                },
+                Tomato: {
+                    product: 'Tomato',
+                    current_price: 4500,
+                    trend: 'up',
+                    trend_symbol: '↑',
+                    unit: 'quintal',
+                    market: 'Madurai Market',
+                    grade: 'Hybrid',
+                    updated_at: '30 minutes ago'
+                },
+                Cotton: {
+                    product: 'Cotton',
+                    current_price: 6200,
+                    trend: 'down',
+                    trend_symbol: '↓',
+                    unit: 'quintal',
+                    market: 'Warangal Cotton Market',
+                    grade: 'Long Staple',
+                    updated_at: 'Today'
+                },
+                Sugarcane: {
+                    product: 'Sugarcane',
+                    current_price: 350,
+                    trend: 'stable',
+                    trend_symbol: '→',
+                    unit: 'quintal',
+                    market: 'Kolhapur',
+                    grade: 'Mill Grade',
+                    updated_at: 'Yesterday'
+                },
+                Turmeric: {
+                    product: 'Turmeric',
+                    current_price: 12000,
+                    trend: 'up',
+                    trend_symbol: '↑',
+                    unit: 'quintal',
+                    market: 'Erode Turmeric Market',
+                    grade: 'Finger Type',
+                    updated_at: 'Today'
+                }
             })
+
         } finally {
             setLoading(false)
         }
     }
 
-    const filteredProducts = Object.values(priceData).filter(item => {
-        const matchesSearch = item.product.toLowerCase().includes(searchTerm.toLowerCase())
-        // For demo, we'll just filter by search term
-        return matchesSearch
+    const filteredProducts = Object.entries(priceData).map(([productName, data]) => ({
+        ...data,
+        product: productName // Ensure product name is set correctly
+    })).filter((item) => {
+        const productName = item?.product ?? ''
+        const query = searchTerm ?? ''
+
+        return productName.toLowerCase().includes(query.toLowerCase())
     })
+
 
     const speakPriceOverview = () => {
         if ('speechSynthesis' in window) {

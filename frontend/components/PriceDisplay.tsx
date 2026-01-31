@@ -11,6 +11,10 @@ interface PriceDisplayProps {
     confidence?: number
     explanation?: string
     factors?: string[]
+    market?: string
+    grade?: string
+    updated_at?: string
+
 }
 
 export default function PriceDisplay({
@@ -20,7 +24,11 @@ export default function PriceDisplay({
     trend,
     confidence = 0.85,
     explanation,
-    factors = []
+    factors = [],
+    market,
+    grade,
+    updated_at
+
 }: PriceDisplayProps) {
     const [showDetails, setShowDetails] = useState(false)
 
@@ -62,6 +70,13 @@ export default function PriceDisplay({
                 <div>
                     <h3 className="text-xl font-bold text-gray-900">{product}</h3>
                     <p className="text-sm text-gray-600">Current Market Price</p>
+
+                    {/* Market / Grade / Updated */}
+                    <div className="mt-2 text-sm text-gray-600 space-y-1">
+                        {market && <p>📍 Market: <span className="font-medium">{market}</span></p>}
+                        {grade && <p>🏷️ Quality: <span className="font-medium">{grade}</span></p>}
+                        {updated_at && <p>⏱️ Updated: {updated_at}</p>}
+                    </div>
                 </div>
 
                 <div className="flex items-center space-x-2">
@@ -105,6 +120,9 @@ export default function PriceDisplay({
                     </div>
                 </div>
             </div>
+
+
+
 
             {/* Details Toggle */}
             {(explanation || factors.length > 0) && (

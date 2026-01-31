@@ -78,11 +78,21 @@ export default function ChatPage() {
                     addAIMessage("I can help you with prices! Which product are you interested in? I have data for rice, wheat, onion, potato, tomato, cotton, sugarcane, and turmeric.")
                 }
             } else if (lowerText.includes('sell') || lowerText.includes('buy')) {
-                addAIMessage("Great! I can help you with trading. Let me know what product you want to trade and I'll provide current market prices and negotiation guidance.")
+                // Handle trading intent with negotiation assistance
+                const products = ['rice', 'wheat', 'onion', 'potato', 'tomato', 'cotton', 'sugarcane', 'turmeric']
+                const mentionedProduct = products.find(product => lowerText.includes(product))
+
+                if (mentionedProduct) {
+                    await fetchNegotiationAdvice(mentionedProduct, lowerText.includes('buy') ? 'buyer' : 'seller')
+                } else {
+                    addAIMessage("Great! I can help you with trading. Let me know what product you want to trade and I'll provide current market prices and negotiation guidance.")
+                }
+            } else if (lowerText.includes('negotiate') || lowerText.includes('offer')) {
+                addAIMessage("I can help you analyze offers and provide negotiation advice. Tell me about the product, quantity, and price being discussed.")
             } else if (lowerText.includes('hello') || lowerText.includes('hi') || lowerText.includes('namaste')) {
-                addAIMessage("Hello! Welcome to OpenMandi. I'm your AI trading assistant. I can help you with current market prices, trading advice, and connecting with buyers or sellers. What would you like to know?")
+                addAIMessage("Hello! Welcome to OpenMandi. I'm your AI trading assistant. I can help you with current market prices, trading advice, negotiation guidance, and connecting with buyers or sellers. What would you like to know?")
             } else {
-                addAIMessage("I understand you're interested in agricultural trading. I can help with current prices, market trends, and trading advice. Try asking about specific products like 'What is the price of rice?' or 'I want to sell tomatoes'.")
+                addAIMessage("I understand you're interested in agricultural trading. I can help with current prices, market trends, negotiation advice, and trading guidance. Try asking about specific products like 'What is the price of rice?' or 'I want to sell tomatoes'.")
             }
         } catch (error) {
             addAIMessage("Sorry, I'm having trouble processing your request right now. Please try again.")
@@ -150,6 +160,33 @@ export default function ChatPage() {
             timestamp: new Date()
         }
         setMessages(prev => [...prev, aiMessage])
+    }
+
+    const fetchNegotiationAdvice = async (product: string, userRole: 'buyer' | 'seller') => {
+        try {
+            // Get market insights first
+            const response = await fetch(`http://localhost:8000/api/v1/negotiation/market-insights/${product}`)
+            if (response.ok) {
+                const data = await response.json()
+
+                const advice = `Here's negotiation guidance for ${product}:
+
+📊 Market Range: ₹${data.market_data.range[0]} - ₹${data.market_data.range[1]} per ${data.market_data.unit}
+💰 Average Price: ₹${data.market_data.base_price} per ${data.market_data.unit}
+
+${userRole === 'buyer' ? '🛒 Buyer Tips:' : '🌾 Seller Tips:'}
+${data.trading_tips.join('\n')}
+
+Would you like me to analyze a specific offer or provide more detailed negotiation strategy?`
+
+                addAIMessage(advice)
+            } else {
+                addAIMessage(`I can help you with ${userRole === 'buyer' ? 'buying' : 'selling'} ${product}. Let me know the quantity and price you're considering, and I'll provide negotiation advice.`)
+            }
+        } catch (error) {
+            console.error('Error fetching negotiation advice:', error)
+            addAIMessage(`I can help you with ${userRole === 'buyer' ? 'buying' : 'selling'} ${product}. Let me know more details about your trading needs.`)
+        }
     }
 
     return (
